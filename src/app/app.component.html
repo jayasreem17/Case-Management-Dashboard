@@ -1,0 +1,78 @@
+<div class="container">
+
+  <h1>Case Management Dashboard</h1>
+
+  <div class="form-section">
+    <input 
+      type="text" 
+      [(ngModel)]="newCase" 
+      placeholder="Enter case name"
+    />
+    <button (click)="addCase()">Add Case</button>
+  </div>
+
+  <!-- 🔍 SEARCH -->
+  <div class="form-section">
+    <input 
+      type="text" 
+      [(ngModel)]="searchText" 
+      placeholder="Search case..."
+    />
+  </div>
+
+  <p class="message">{{ message }}</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Case Name</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let case of filteredCases(); let i = index">
+
+        <td>{{ i + 1 }}</td>
+
+        <td>
+          <span *ngIf="editIndex !== i">
+            {{ case }}
+          </span>
+
+          <span *ngIf="editIndex === i">
+            <input [(ngModel)]="editText" />
+          </span>
+        </td>
+
+        <td>
+          <ng-container *ngIf="editIndex !== i">
+            <button (click)="startEdit(i)">Edit</button>
+
+            <button 
+              class="delete" 
+              (click)="deleteCase(i)" 
+              style="margin-left:8px;"
+            >
+              Delete
+            </button>
+          </ng-container>
+
+          <ng-container *ngIf="editIndex === i">
+            <button (click)="saveEdit(i)">Save</button>
+
+            <button 
+              (click)="cancelEdit()" 
+              style="margin-left:5px;"
+            >
+              Cancel
+            </button>
+          </ng-container>
+        </td>
+
+      </tr>
+    </tbody>
+  </table>
+
+</div>
